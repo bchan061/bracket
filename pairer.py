@@ -1,6 +1,25 @@
 import itertools
 films = []
 
+def getPairs():
+    films = []
+    with open('top64.txt', encoding='utf-8') as top64File:
+        for line in top64File:
+            films.append(line)
+
+    pairs = itertools.combinations(films, r=2)
+
+    returnedPairs = []
+    count = 1
+    for pair in pairs:
+        topic = "Question {}".format(count)
+        item1 = pair[0].strip()
+        item2 = pair[1].strip()
+        returnedPairs.append((topic, item1, item2))
+
+        count += 1
+    return returnedPairs
+
 if __name__ == '__main__':
     print("Opening top films...", end='')
     with open('top64.txt', encoding='utf-8') as top64File:
