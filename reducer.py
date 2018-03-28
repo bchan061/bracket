@@ -2,11 +2,6 @@ import csv
 films = []
 strikedOffFilms = {}
 
-def getFilms():
-    with open('top64.txt', encoding="utf-8") as filmsFile:
-        for line in filmsFile:
-            films.append(line.strip())
-
 if __name__ == '__main__':
     # CREATING LIST OF FILMS
     print("Creating list of films... ", end='')

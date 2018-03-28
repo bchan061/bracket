@@ -1,8 +1,9 @@
 import csv
 import os
 import pairer
+import film
 
-films = []
+films = {}
 responses = []
 pairs = []
 
@@ -23,10 +24,14 @@ def addToResponses(answers):
         else:
             responses[i][1] += 1
 
-if __name__ == '__main__':
-    # Testing
+def createResponses():
+    global films
+    global responses
+    global pairs
+    
     allQuestionFiles = os.listdir('Questions')
     pairs = pairer.getPairs()
+    films = film.getFilms()
 
     for pair in pairs:
         responses.append([0, 0])
@@ -49,5 +54,28 @@ if __name__ == '__main__':
                     addToResponses(answers)
                     
                 count += 1
-        print(responses[0:100])
+
+    compileResponsesIntoFilms()
+    computeStats()
+    return films
+
+def compileResponsesIntoFilms():
+    for i in range(len(responses)):
+        response = responses[i]
+        pair = pairs[i]
+        firstFilm = pair[1]
+        secondFilm = pair[2]
+        films[firstFilm].addAgainst(secondFilm, response[0], response[1])
+        films[secondFilm].addAgainst(firstFilm, response[1], response[0])
+
+def computeStats():
+    for film in films:
+        films[film].calculateStats()
         
+def computeAbsoluteStats():
+    for film in films:
+        films[film].calculateAbsoluteStats()
+
+if __name__ == '__main__':
+    # Testing
+    createResponses()
