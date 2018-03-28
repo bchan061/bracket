@@ -10,6 +10,7 @@ class Film():
     def __init__(self, name):
         self.name = name
         self.against = {}
+        self.record = {}
         self.reset()
 
     def reset(self):
@@ -28,10 +29,13 @@ class Film():
             otherScore = results[1]
             if thisScore > otherScore:
                 self.wins += 1
+                self.record[otherFilm] = 'Won'
             elif thisScore == otherScore:
                 self.draws += 1
+                self.record[otherFilm] = 'Draw'
             else:
                 self.loses += 1
+                self.record[otherFilm] = 'Lost'
 
     def calculateStats(self):
         for otherFilm in self.against:
@@ -43,10 +47,16 @@ class Film():
                 denom = 1
             if thisScore > otherScore:
                 self.wins += thisScore / denom
+                self.record[otherFilm] = 'Won'
             elif thisScore == otherScore:
                 self.draws += 1
+                self.record[otherFilm] = 'Draw'
             else:
                 self.loses += otherScore / denom
+                self.record[otherFilm] = 'Lost'
+
+    def getScore(self):
+        return self.wins - self.loses
 
     def __str__(self):
         return self.name

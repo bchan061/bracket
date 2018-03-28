@@ -40,8 +40,8 @@ if __name__ == '__main__':
     testArc = arc(window.width // 2,
                   window.height // 2,
                   100,
-                  0,
-                  135)
+                  270,
+                  315)
 
     @window.event
     def on_draw():

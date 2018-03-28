@@ -50,6 +50,9 @@ def createResponses():
                     end = len(row)
                     if hasStupidQuestion(partNumber):
                         end -= 1
+                    # End has 2 comments, disregard the other one too
+                    if partNumber == 21:
+                        end -= 1
                     answers = row[1:end]
                     addToResponses(answers)
                     
