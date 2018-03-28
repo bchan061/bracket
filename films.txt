@@ -1,4 +1,4 @@
-Toy Story 
+﻿Toy Story 
 Finding Nemo   
 Snow White and the Seven Dwarves
 The Incredibles   
@@ -20,7 +20,7 @@ Flushed Away
 Rio
 Cars 3
 Epic
-Ice Age 2: The Meltdown
+The Lion King
 Madagascar   
 A Christmas Carol
 All Dogs Go to Heaven
@@ -124,5 +124,5 @@ Ice Age 3: Dawn of the Dinosaurs
 Angry Birds Movie
 Cars 2
 Shark Tale   
-Pocahontas II: Journey to a New World
+Shrek 2
 The Pokemon Movie
