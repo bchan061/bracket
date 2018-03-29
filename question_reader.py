@@ -15,14 +15,18 @@ def getPart(filename):
     # Ending extension is '.csv' (4 characters)
     return int(filename[-6:-4].strip())
 
-def addToResponses(answers):
+def addToResponses(answers, part):
+    offset = (part - 1) * 100
     for i in range(len(answers)):
         answer = answers[i]
-        equivalentPair = pairs[i]
-        if answer == equivalentPair[1]:
-            responses[i][0] += 1
-        else:
-            responses[i][1] += 1
+        addToResponse(i + offset, answer)
+
+def addToResponse(i, answer):
+    equivalentPair = pairs[i]
+    if answer == equivalentPair[1]:
+        responses[i][0] += 1
+    else:
+        responses[i][1] += 1
 
 def createResponses():
     global films
@@ -30,6 +34,7 @@ def createResponses():
     global pairs
     
     allQuestionFiles = os.listdir('Questions')
+    allQuestionFiles.sort(key=lambda x: getPart(x))
     pairs = pairer.getPairs()
     films = film.getFilms()
 
@@ -41,7 +46,6 @@ def createResponses():
         partNumber = getPart(questionFileName)
         with open(questionFileName, encoding='utf-8') as questionFile:
             questionFileReader = csv.reader(questionFile, delimiter=',')
-
             count = 0
             for row in questionFileReader:
                 # Disregard the topics.
@@ -50,11 +54,14 @@ def createResponses():
                     end = len(row)
                     if hasStupidQuestion(partNumber):
                         end -= 1
-                    # End has 2 comments, disregard the other one too
-                    if partNumber == 21:
+                    # I screwed up, left comments in part 20
+                    if partNumber == 20:
                         end -= 1
+                    # End has 2 comments
+                    if partNumber == 21:
+                        end -= 2
                     answers = row[1:end]
-                    addToResponses(answers)
+                    addToResponses(answers, partNumber)
                     
                 count += 1
 
@@ -82,3 +89,4 @@ def computeAbsoluteStats():
 if __name__ == '__main__':
     # Testing
     createResponses()
+    print(responses[2000])

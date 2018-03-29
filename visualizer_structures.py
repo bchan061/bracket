@@ -52,13 +52,13 @@ class ResultRow(DrawableComponent):
                            font_name='Calibri',
                            font_size=18,
                            color=(0, 0, 0, 255),
-                           x=self.rectangle.x, y=(self.rectangle.y + self.rectangle.height / 2),
+                           x=self.rectangle.x + 4, y=(self.rectangle.y + self.rectangle.height / 2),
                            anchor_x='left', anchor_y='center')
         self.record = Label(self.film.name,
                             font_name='Calibri',
                             font_size=18,
                             color=(0, 0, 0, 255),
-                            x=self.rectangle.x + self.rectangle.width, y=(self.rectangle.y + self.rectangle.height / 2),
+                            x=self.rectangle.x + self.rectangle.width - 4, y=(self.rectangle.y + self.rectangle.height / 2),
                             anchor_x='right', anchor_y='center')
 
     def getRowColor(self):
@@ -70,9 +70,9 @@ class ResultRow(DrawableComponent):
             self.color = (100 / 255, 149 / 255, 237 / 255)
     
     def draw(self, camera):
-        self.label.x = self.rectangle.x - camera.x
+        self.label.x = self.rectangle.x + 4 - camera.x
         self.label.y = (self.rectangle.y + self.rectangle.height / 2) - camera.y
-        self.record.x = self.rectangle.x + self.rectangle.width - camera.x
+        self.record.x = self.rectangle.x + self.rectangle.width - 4 - camera.x
         self.record.y = (self.rectangle.y + self.rectangle.height / 2) - camera.y
         self.label.text = "{} vs. {}".format(self.film.name, self.otherFilmName)
         self.record.text = self.film.record[self.otherFilmName]
@@ -92,19 +92,19 @@ class RecordRow(DrawableComponent):
                            font_name='Calibri',
                            font_size=18,
                            color=(0, 0, 0, 255),
-                           x=self.rectangle.x, y=(self.rectangle.y + self.rectangle.height / 2),
+                           x=self.rectangle.x + 4, y=(self.rectangle.y + self.rectangle.height / 2),
                            anchor_x='left', anchor_y='center')
         self.record = Label(self.film.name,
                             font_name='Calibri',
                             font_size=18,
                             color=(0, 0, 0, 255),
-                            x=self.rectangle.x + self.rectangle.width, y=(self.rectangle.y + self.rectangle.height / 2),
+                            x=self.rectangle.x + self.rectangle.width - 4, y=(self.rectangle.y + self.rectangle.height / 2),
                             anchor_x='right', anchor_y='center')
 
     def draw(self, camera):
-        self.label.x = self.rectangle.x - camera.x
+        self.label.x = self.rectangle.x + 4 - camera.x
         self.label.y = (self.rectangle.y + self.rectangle.height / 2) - camera.y
-        self.record.x = self.rectangle.x + self.rectangle.width - camera.x
+        self.record.x = self.rectangle.x + self.rectangle.width - 4 - camera.x
         self.record.y = (self.rectangle.y + self.rectangle.height / 2) - camera.y
         self.record.text = "{:.2f} - {:.2f} - {:.2f}".format(self.film.wins, self.film.draws, self.film.loses)
         

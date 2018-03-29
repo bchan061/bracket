@@ -7,7 +7,7 @@ from pyglet.text import Label
 from visualizer_structures import Rectangle, ResultRow, RecordRow, Camera
 
 films = {}
-window = pyglet.window.Window(1280, 720)
+window = pyglet.window.Window(1280, 720, resizable=True)
 movieLabel = Label('test',
                    font_name='Calibri',
                    font_size=36,
@@ -18,13 +18,13 @@ piMovieLabel = Label('test',
                      font_name='Calibri',
                      font_size=24,
                      color=(0, 0, 255, 255),
-                     x=window.width/2, y=50,
+                     x=window.width/2, y=100,
                      anchor_x='center', anchor_y='center')
 piMovieAgainstLabel = Label('test',
                             font_name='Calibri',
                             font_size=24,
                             color=(255, 0, 0, 255),
-                            x=window.width/2, y=100,
+                            x=window.width/2, y=50,
                             anchor_x='center', anchor_y='center')
 piMovie = None
 piMovieAgainst = ''
@@ -33,6 +33,20 @@ resultRows = []
 camera = Camera()
 
 screen = ''
+
+@window.event
+def on_resize(width, height):
+    global recordRows
+    global resultRows
+    movieLabel.x = window.width / 2
+    movieLabel.y = window.height - 50
+    piMovieLabel.x = window.width / 2
+    piMovieAgainstLabel.x = window.width / 2
+    recordRows = []
+    resultRows = []
+    recordRows = createRecordRows()
+    if screen != 'rows':
+        resultRows = createResultRows(piMovie)
 
 @window.event
 def on_draw():
@@ -112,8 +126,22 @@ def on_mouse_release(x, y, button, modifiers):
                     global piMovieAgainstLabel
                     piMovie = resultRow.film
                     piMovieAgainst = resultRow.otherFilmName
-                    piMovieLabel.text = "{} ({} votes)".format(resultRow.film.name, resultRow.film.against[resultRow.otherFilmName][0])
-                    piMovieAgainstLabel.text = "{} ({} votes)".format(resultRow.otherFilmName, resultRow.film.against[resultRow.otherFilmName][1])
+                    
+                    denom = sum(piMovie.against[piMovieAgainst])
+                    if denom == 0:
+                        denom = 1
+                    forPercent = piMovie.against[piMovieAgainst][0] / denom
+                    
+                    piMovieLabel.text = "{} ({} votes) [{:.2f}%]".format(
+                        resultRow.film.name,
+                        resultRow.film.against[resultRow.otherFilmName][0],
+                        forPercent * 100
+                        )
+                    piMovieAgainstLabel.text = "{} ({} votes) [{:.2f}%]".format(
+                        resultRow.otherFilmName,
+                        resultRow.film.against[resultRow.otherFilmName][1],
+                        (1 - forPercent) * 100
+                        )
     elif button & mouse.RIGHT:
         if screen == 'record':
             changeScreen('rows')
